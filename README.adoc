@@ -1,8 +1,8 @@
-= bla
+= mule-secure-props-tool-slack-app: Use the Mule Secure Properties Tool from Slack
 
 == Log
 
 . bootstrap from https://code.quarkus.io/ with Undertow Servlet and Kotlin
 . `./gradlew wrapper --gradle-version=7.4 --distribution-type=bin`
-. create shell scripts
 . create `.env` and `env-template`
+. create shell scripts for build and run
