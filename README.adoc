@@ -1,0 +1,8 @@
+= bla
+
+== Log
+
+. bootstrap from https://code.quarkus.io/ with Undertow Servlet and Kotlin
+. `./gradlew wrapper --gradle-version=7.4 --distribution-type=bin`
+. create shell scripts
+. create `.env` and `env-template`

@@ -1,0 +1,18 @@
+#
+# Use this template to populate .env 
+# Then copy the contents of .env without comment lines into the GitHub Actions Secret called ENV !
+#
+# build and deploy
+export APP=''
+export IMG=''
+export DOCKER_UNAME=''
+export DOCKER_PASSW=''
+export K8S_CLUSTER_NAME=''
+export K8S_CLUSTER_REGION=''
+export AWS_ACCESS_KEY_ID=''
+export AWS_SECRET_ACCESS_KEY=''
+export AWS_DEFAULT_REGION=''
+# run
+export SLACK_SIGNING_SECRET=''
+export SLACK_APP_TOKEN=''
+export SLACK_BOT_TOKEN=''
