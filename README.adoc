@@ -6,3 +6,6 @@
 . `./gradlew wrapper --gradle-version=7.4 --distribution-type=bin`
 . create `.env` and `env-template`
 . create shell scripts for build and run
+. added Bolt as per https://slack.dev/java-slack-sdk/guides/supported-web-frameworks
+. tweaked Kotlin code, changed exposed port to 3000 to match node
+. added infrastructure and k8s scripts
