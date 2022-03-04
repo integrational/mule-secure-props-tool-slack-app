@@ -12,5 +12,4 @@
 . added Slack Socket-mode on top of Events API
 . refined build
 . defined slash commands:
-.. `/encrypt` Encrypts a string using the Mule Secure Properties Tool
-.. `/decrypt` Decrypts a string using the Mule Secure Properties Tool
+. implement Secure Properties Tool facade and delegate

@@ -1,5 +1,6 @@
 package com.mulesoft.training.slack.secprops
 
+import com.mulesoft.training.slack.secprops.slack.SlackApp
 import com.slack.api.bolt.servlet.SlackAppServlet
 import com.slack.api.bolt.socket_mode.SocketModeApp
 import io.quarkus.runtime.QuarkusApplication
@@ -11,20 +12,20 @@ import javax.servlet.annotation.WebServlet
  * Main entrypoint to Events API Slack app
  */
 @WebServlet("/slack/events")
-class MainServlet : SlackAppServlet(app())
+class MainServlet(app: SlackApp) : SlackAppServlet(app.app)
 
 /**
  * Main entrypoint to Socket-mode Slack app. Overrides Events API/Servlet mode.
  */
 @QuarkusMain
-class MainApp : QuarkusApplication {
+class MainApp(val app: SlackApp) : QuarkusApplication {
     companion object {
         val log = LoggerFactory.getLogger(MainApp::class.java)
     }
 
     override fun run(vararg args: String?): Int {
         log.info("Starting Slack app in Socket mode")
-        SocketModeApp(app()).start()
+        SocketModeApp(app.app).start()
         log.info("Stopped Slack app in Socket mode")
         return 0
     }
