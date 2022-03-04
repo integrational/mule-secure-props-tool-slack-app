@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.allopen") version "1.6.10"
+    kotlin("jvm")
+    kotlin("plugin.allopen")
     id("io.quarkus")
 }
 
@@ -13,7 +13,9 @@ val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 
-val boltVersion = "1.20.1"
+val boltVersion: String by project
+val websocketApiVersion: String by project
+val tyrusVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("$quarkusPlatformGroupId:$quarkusPlatformArtifactId:$quarkusPlatformVersion"))
@@ -29,15 +31,15 @@ dependencies {
 
     // for Bolt socket mode only (uses websocket):
     implementation("com.slack.api:bolt-socket-mode:$boltVersion")
-    implementation("javax.websocket:javax.websocket-api:1.1")
-    implementation("org.glassfish.tyrus.bundles:tyrus-standalone-client:1.17")
+    implementation("javax.websocket:javax.websocket-api:$websocketApiVersion")
+    implementation("org.glassfish.tyrus.bundles:tyrus-standalone-client:$tyrusVersion")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
 
 group = "com.mulesoft.training.slack.secprops"
-version = "1.0.0-SNAPSHOT"
+version = "0.0.3"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
