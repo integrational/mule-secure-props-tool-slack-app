@@ -14,7 +14,6 @@ val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 
 val boltVersion: String by project
-val websocketApiVersion: String by project
 val tyrusVersion: String by project
 
 dependencies {
@@ -31,15 +30,11 @@ dependencies {
 
     // for Bolt socket mode only (uses websocket):
     implementation("com.slack.api:bolt-socket-mode:$boltVersion")
-    implementation("javax.websocket:javax.websocket-api:$websocketApiVersion")
     implementation("org.glassfish.tyrus.bundles:tyrus-standalone-client:$tyrusVersion")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
-
-group = "com.mulesoft.training.slack.secprops"
-version = "0.0.3"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11

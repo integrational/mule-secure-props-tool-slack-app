@@ -13,4 +13,3 @@ pluginManagement {
         kotlin("plugin.allopen") version kotlinVersion
     }
 }
-rootProject.name = "mule-secure-props-tool-slack-app"
