@@ -1,4 +1,4 @@
-package com.mulesoft.training.slack.secprops
+package com.mulesoft.training.slack.secprops.health
 
 import org.eclipse.microprofile.health.*
 import javax.enterprise.context.ApplicationScoped

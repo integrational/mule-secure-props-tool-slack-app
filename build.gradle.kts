@@ -26,6 +26,12 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-health")
     implementation("com.slack.api:bolt-servlet:$boltVersion")
     implementation("com.slack.api:slack-api-client-kotlin-extension:$boltVersion")
+
+    // for Bolt socket mode only (uses websocket):
+    implementation("com.slack.api:bolt-socket-mode:$boltVersion")
+    implementation("javax.websocket:javax.websocket-api:1.1")
+    implementation("org.glassfish.tyrus.bundles:tyrus-standalone-client:1.17")
+
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
