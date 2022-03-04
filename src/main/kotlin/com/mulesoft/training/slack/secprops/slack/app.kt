@@ -1,10 +1,18 @@
 package com.mulesoft.training.slack.secprops
 
 import com.slack.api.bolt.App
-import com.slack.api.bolt.response.Response
+import org.slf4j.LoggerFactory
 
 internal fun app() = App().apply {
-    command("/hello") { ctx, req ->
-        Response.ok(":wave: Hi there!")
+    val log = LoggerFactory.getLogger(this::class.java)
+
+    command("/encrypt") { req, ctx ->
+        log.info("Handling ${req.payload.command} with ${req.payload.text}")
+        ctx.ack("encrypted string is ...")
+    }
+
+    command("/decrypt") { req, ctx ->
+        log.info("Handling ${req.payload.command} with ${req.payload.text}")
+        ctx.ack("decrypted string is ...")
     }
 }

@@ -9,3 +9,8 @@
 . added Bolt as per https://slack.dev/java-slack-sdk/guides/supported-web-frameworks
 . tweaked Kotlin code, changed exposed port to 3000 to match node
 . added infrastructure and k8s scripts
+. added Slack Socket-mode on top of Events API
+. refined build
+. defined slash commands:
+.. `/encrypt` Encrypts a string using the Mule Secure Properties Tool
+.. `/decrypt` Decrypts a string using the Mule Secure Properties Tool
