@@ -7,5 +7,6 @@ cd $(cd "$(dirname "$0")" && pwd) # cd to where this script is located
 #docker build --pull -f src/main/docker/Dockerfile.native-micro -t $IMG .
 
 # normal Java-based Docker image instead
-./gradlew build -Dquarkus.package.type=uber-jar
+# don't build uber-jar because the Docker images doesn't use it!
+./gradlew clean build
 docker build --pull -f src/main/docker/Dockerfile.jvm -t $IMG .

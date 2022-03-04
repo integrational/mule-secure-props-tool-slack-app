@@ -10,4 +10,4 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
     }
 }
-rootProject.name = "secure-props-tool-slack-app"
+rootProject.name = "mule-secure-props-tool-slack-app"
