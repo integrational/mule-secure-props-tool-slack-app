@@ -65,16 +65,18 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
                 .loadClass(toolMainClassName)
     }
 
-    private val toolMainClass = loadToolMainClass()
-    private val toolMethodForString = toolMainClass.getMethod(
-        toolMethodNameForString,
-        String::class.java, // String action (= operation)
-        String::class.java, // String algorithm
-        String::class.java, // String mode
-        String::class.java, // String key
-        Boolean::class.java, // boolean useRandomIVs
-        String::class.java // String value
-    )
+    private val toolMainClass by lazy { loadToolMainClass() } // lazy also implies re-try upon exception
+    private val toolMethodForString by lazy {
+        toolMainClass.getMethod(
+            toolMethodNameForString,
+            String::class.java, // String action (= operation)
+            String::class.java, // String algorithm
+            String::class.java, // String mode
+            String::class.java, // String key
+            Boolean::class.java, // boolean useRandomIVs
+            String::class.java // String value
+        )
+    }
 
     override fun invoke(
         method: Method,
@@ -84,11 +86,11 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
         key: String,
         value: String,
         useRandomIVs: Boolean
-    ): String {
+    ): String = synchronized(this) { // defensive synchronized in case tool is not thread safe
         //
         // The main() method of the Mule Secure Properties Tool writes the result to stdout (and errors to stderr).
         // This can not be used when invoked in-process like here.
-        // Therefore have to invoke the public methods to which main() delegates.
+        // Therefor have to invoke the public methods to which main() delegates.
         // These are public and static but not otherwise part of the contract of the tool: this is a brittle solution!
         //
 
