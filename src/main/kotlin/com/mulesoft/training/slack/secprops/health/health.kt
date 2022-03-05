@@ -6,17 +6,17 @@ import javax.enterprise.context.ApplicationScoped
 @Startup
 @ApplicationScoped
 class DefaultStartupHealthCheck : HealthCheck {
-    override fun call() = HealthCheckResponse.up("started")
+    override fun call(): HealthCheckResponse = HealthCheckResponse.up("started")
 }
 
 @Liveness
 @ApplicationScoped
 class DefaultLivenessHealthCheck : HealthCheck {
-    override fun call() = HealthCheckResponse.up("live")
+    override fun call(): HealthCheckResponse = HealthCheckResponse.up("live")
 }
 
 @Readiness
 @ApplicationScoped
 class DefaultReadinessHealthCheck : HealthCheck {
-    override fun call() = HealthCheckResponse.up("ready")
+    override fun call(): HealthCheckResponse = HealthCheckResponse.up("ready")
 }

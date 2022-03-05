@@ -10,11 +10,11 @@ import javax.ws.rs.core.MediaType
 @Path("/about")
 @Produces(MediaType.APPLICATION_JSON)
 @ApplicationScoped
-class AboutResource(thisApp: QuarkusApp) {
+class AboutResource(private val thisApp: QuarkusApp) {
 
     data class About(val app: String, val version: String)
 
-    private val about = About(thisApp.name(), thisApp.version())
+    private val about by lazy { About(thisApp.name(), thisApp.version()) }
 
     @GET
     fun about() = about

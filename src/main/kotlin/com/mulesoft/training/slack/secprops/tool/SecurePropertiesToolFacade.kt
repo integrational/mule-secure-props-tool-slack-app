@@ -20,7 +20,7 @@ interface SecurePropertiesToolFacade {
      * @param mode CBC, CFB, ECB, OFB, ...
      * @exception RuntimeException if anything goes wrong
      */
-    abstract fun invoke(
+    fun invoke(
         method: Method, operation: Operation,
         algorithm: String, mode: String, key: String, value: String, useRandomIVs: Boolean
     ): String

@@ -18,8 +18,8 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
         private const val muleVersion = "4.2"
 
         /** The authoritative URL of the Mule Secure Properties Tool jar file */
-        private val toolJarFileUrl =
-            URL("https://docs.mulesoft.com/downloads/mule-runtime/$muleVersion/secure-properties-tool.jar")
+        private const val toolJarFileUrl =
+            "https://docs.mulesoft.com/downloads/mule-runtime/$muleVersion/secure-properties-tool.jar"
 
         /** Fully qualified class name of the Main Java class of the Mule Secure Properties Tool */
         private const val toolMainClassName = "com.mulesoft.tools.SecurePropertiesTool"
@@ -58,14 +58,14 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
         private const val toolMethodNameForFileLevel = "applyHoleFile"
 
         private val log = LoggerFactory.getLogger(SecurePropertiesToolDelegate::class.java)
-
-        /** Load the Main class of the Mule Secure Properties Tool jar file from its JAR file at its authoritative URL */
-        private fun loadToolMainClass() =
-            URLClassLoader.newInstance(arrayOf(URL("jar:${toolJarFileUrl.toExternalForm()}!/")))
-                .loadClass(toolMainClassName)
     }
 
-    private val toolMainClass by lazy { loadToolMainClass() } // lazy also implies re-try upon exception
+    private val toolMainClass by lazy {
+        // load the Main class of the Mule Secure Properties Tool from its jar file at its authoritative URL
+        // lazy also implies re-try upon exception, such as when the jar file download files
+        URLClassLoader.newInstance(arrayOf(URL("jar:$toolJarFileUrl!/")))
+            .loadClass(toolMainClassName)
+    }
     private val toolMethodForString by lazy {
         toolMainClass.getMethod(
             toolMethodNameForString,
@@ -94,14 +94,14 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
         // These are public and static but not otherwise part of the contract of the tool: this is a brittle solution!
         //
 
-        log.info("Invoking Mule Secure Properties Tool with $method $operation $algorithm $mode $key $value $useRandomIVs")
+        log.debug("Invoking Mule Secure Properties Tool with ${method.arg} ${operation.arg} $algorithm $mode $key $value $useRandomIVs")
         try {
             return when (method) {
                 Method.STRING -> invokeForString(operation, algorithm, mode, key, value, useRandomIVs)
-                Method.FILE -> TODO("File method not supported")
-                Method.FILE_LEVEL -> TODO("File-level method not supported")
+                Method.FILE -> TODO("File method not supported (should invoke $toolMethodNameForFile)")
+                Method.FILE_LEVEL -> TODO("File-level method not supported (should invoke $toolMethodNameForFileLevel)")
             }.also {
-                log.info("Invoked Mule Secure Properties Tool with result $it")
+                log.debug("Invoked Mule Secure Properties Tool with result $it")
             }
         } catch (e: Throwable) {
             throw RuntimeException("Failed to invoke Mule Secure Properties Tool: ${e.cause?.message}", e).also {
