@@ -5,12 +5,23 @@ import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Oper
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.net.URLClassLoader
-import javax.enterprise.context.Dependent
+import javax.enterprise.context.ApplicationScoped
 
-@Dependent
+/**
+ * Dynamically loads the Mule Secure Properties Tool jar file from its authoritative URL
+ * and invokes it in-process (in this JVM) in order to satisfy the [SecurePropertiesToolFacade] interface.
+ */
+@ApplicationScoped
 class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
     companion object {
-        private const val toolJarFileName = "secure-properties-tool.jar" // must match get-secure-props-tool.sh
+        /** THe Mule Runtime version that determines the URL of the Mule Secure Properties Tool */
+        private const val muleVersion = "4.2"
+
+        /** The authoritative URL of the Mule Secure Properties Tool jar file */
+        private val toolJarFileUrl =
+            URL("https://docs.mulesoft.com/downloads/mule-runtime/$muleVersion/secure-properties-tool.jar")
+
+        /** Fully qualified class name of the Main Java class of the Mule Secure Properties Tool */
         private const val toolMainClassName = "com.mulesoft.tools.SecurePropertiesTool"
 
         /**
@@ -47,7 +58,23 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
         private const val toolMethodNameForFileLevel = "applyHoleFile"
 
         private val log = LoggerFactory.getLogger(SecurePropertiesToolDelegate::class.java)
+
+        /** Load the Main class of the Mule Secure Properties Tool jar file from its JAR file at its authoritative URL */
+        private fun loadToolMainClass() =
+            URLClassLoader.newInstance(arrayOf(URL("jar:${toolJarFileUrl.toExternalForm()}!/")))
+                .loadClass(toolMainClassName)
     }
+
+    private val toolMainClass = loadToolMainClass()
+    private val toolMethodForString = toolMainClass.getMethod(
+        toolMethodNameForString,
+        String::class.java, // String action (= operation)
+        String::class.java, // String algorithm
+        String::class.java, // String mode
+        String::class.java, // String key
+        Boolean::class.java, // boolean useRandomIVs
+        String::class.java // String value
+    )
 
     override fun invoke(
         method: Method,
@@ -82,26 +109,6 @@ class SecurePropertiesToolDelegate : SecurePropertiesToolFacade {
     }
 
     private fun invokeForString(
-        operation: Operation,
-        algorithm: String,
-        mode: String,
-        key: String,
-        value: String,
-        useRandomIVs: Boolean
-    ) = toolMethodForString().invoke(null, operation.arg, algorithm, mode, key, useRandomIVs, value).toString()
-
-    private fun toolMethodForString() = toolMainClass().getMethod(
-        toolMethodNameForString, String::class.java, // String action (= operation)
-        String::class.java, // String algorithm
-        String::class.java, // String mode
-        String::class.java, // String key
-        Boolean::class.java, // boolean useRandomIVs
-        String::class.java // String value
-    )
-
-    private fun toolMainClass(): Class<*> {
-        val toolJarFile = javaClass.classLoader.getResource("/$toolJarFileName")
-        val classLoader = URLClassLoader.newInstance(arrayOf(URL("jar:${toolJarFile.toExternalForm()}!/")))
-        return classLoader.loadClass(toolMainClassName)
-    }
+        operation: Operation, algorithm: String, mode: String, key: String, value: String, useRandomIVs: Boolean
+    ) = toolMethodForString.invoke(null, operation.arg, algorithm, mode, key, useRandomIVs, value).toString()
 }
