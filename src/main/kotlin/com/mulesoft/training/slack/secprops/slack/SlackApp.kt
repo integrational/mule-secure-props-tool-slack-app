@@ -15,36 +15,23 @@ class SlackApp(val tool: SecurePropertiesToolFacade) {
     val log = LoggerFactory.getLogger(this::class.java)
 
     val app = App().apply {
-        command("/encrypt") { req, ctx -> encrypt(req, ctx) }
-        command("/decrypt") { req, ctx -> decrypt(req, ctx) }
+        command("/encrypt") { req, ctx -> crypto(Operation.ENCRYPT, req, ctx) }
+        command("/decrypt") { req, ctx -> crypto(Operation.DECRYPT, req, ctx) }
     }
 
-    private fun encrypt(req: SlashCommandRequest, ctx: SlashCommandContext): Response {
-        log.info("Handling ${req.payload.command} with ${req.payload.text}")
-        val result = try {
-            val args = ToolArgs.fromText(req.payload.text)
-            tool.invoke(
-                Method.STRING, Operation.ENCRYPT,
-                args.algorithm, args.mode, args.key, args.value, args.useRandomIVs
-            )
-        } catch (e: Throwable) {
-            "Please provide: algorithm mode key value [use random IVs]"
+    private fun crypto(operation: Operation, req: SlashCommandRequest, ctx: SlashCommandContext): Response {
+        log.info("Handling command ${req.payload.command} with text '${req.payload.text}'")
+        val result =
+            ToolArgs.fromText(req.payload.text)?.let {
+                try {
+                    tool.invoke(Method.STRING, operation, it.algorithm, it.mode, it.key, it.value, it.useRandomIVs)
+                } catch (e: Throwable) {
+                    e.message
+                }
+            } ?: "Missing arguments: algorithm mode key value [use random IVs]"
+        return ctx.ack(result).also {
+            log.info("Ack-ed command ${req.payload.command} with '$it'")
         }
-        return ctx.ack(result)
-    }
-
-    private fun decrypt(req: SlashCommandRequest, ctx: SlashCommandContext): Response {
-        log.info("Handling ${req.payload.command} with ${req.payload.text}")
-        val result = try {
-            val args = ToolArgs.fromText(req.payload.text)
-            tool.invoke(
-                Method.STRING, Operation.DECRYPT,
-                args.algorithm, args.mode, args.key, args.value, args.useRandomIVs
-            )
-        } catch (e: Throwable) {
-            "Please provide: algorithm mode key value [use random IVs]"
-        }
-        return ctx.ack(result)
     }
 }
 
@@ -57,14 +44,19 @@ private data class ToolArgs(
     val useRandomIVs: Boolean
 ) {
     companion object {
-        fun fromText(text: String) = text.split(' ').let {
-            ToolArgs(
-                algorithm = it[0],
-                mode = it[1],
-                key = it[2],
-                value = it[3],
-                useRandomIVs = it.getOrNull(4).toBoolean()
-            )
-        }
+        fun fromText(text: String) =
+            try {
+                text.split(' ').let {
+                    ToolArgs(
+                        algorithm = it[0],
+                        mode = it[1],
+                        key = it[2],
+                        value = it[3],
+                        useRandomIVs = it.getOrNull(4).toBoolean()
+                    )
+                }
+            } catch (e: Throwable) {
+                null // if not sufficient args
+            }
     }
 }
