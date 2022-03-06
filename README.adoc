@@ -1,5 +1,24 @@
 = mule-secure-props-tool-slack-app: Use the Mule Secure Properties Tool from Slack
 
+image:https://github.com/integrational/mule-secure-props-tool-slack-app/workflows/Build%20Deploy/badge.svg[]
+
+== Setup
+
+. Populate file `.env` from the template file `env-template`
+. Then copy the contents of `.env` without comment lines into the GitHub Actions Secret called `ENV`
+. Then build and run either locally or on a k8s cluster, using the supplied scripts
+. See link:.github/workflows/build-deploy.yaml[build-deploy.yaml] for the GitHub Actions CI/CD pipeline that does this
+
+== Built with
+
+- Kotlin
+- Quarkus
+- Bolt Java
+- dotenv oh-my-zsh plugin
+- ngrok
+- Docker
+- kubectl
+
 == Log
 
 . bootstrap from https://code.quarkus.io/ with Undertow Servlet and Kotlin
@@ -8,6 +27,7 @@
 . create shell scripts for build and run
 . added Bolt as per https://slack.dev/java-slack-sdk/guides/supported-web-frameworks
 . tweaked Kotlin code, changed exposed port to 3000 to match node
+. added about REST resource and MicroProfile Health endpoints
 . added infrastructure and k8s scripts
 . added Slack Socket-mode on top of Events API
 . refined build

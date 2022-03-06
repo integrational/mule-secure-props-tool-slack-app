@@ -58,10 +58,28 @@ spec:
           resources:
             requests:
               cpu: 1
-              memory: 128Mi
+              memory: 256Mi
             limits:
               cpu: 2
-              memory: 256Mi
+              memory: 512Mi
+          startupProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            httpGet:
+              path: /q/health/started
+              port: 3000
+          livenessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            httpGet:
+              path: /q/health/live
+              port: 3000
+          readinessProbe:
+            initialDelaySeconds: 1
+            periodSeconds: 1
+            httpGet:
+              path: /q/health/ready
+              port: 3000
           envFrom:
             - configMapRef:
                 name: "{{APP}}-configs"

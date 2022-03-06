@@ -1,0 +1,47 @@
+name: Build Deploy
+
+#
+# CI/CD workflow that runs on Git pushes and builds and deploys this app.
+#
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  # the same contents as the local .env
+  # but with all comment lines removed: must contain only 'export VAR=val' lines
+  # must be eval-ed to set all env vars
+  ENV: ${{ secrets.ENV }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: '11'
+      - name: Build and push Docker image
+        run: |
+          eval $ENV
+          ./build-docker.sh
+          ./login-docker.sh
+          ./push-docker.sh
+      - name: Deploy to k8s cluster
+        run: |
+          eval $ENV
+          ./deploy-to-k8s-with-deployment-container.sh
+      - name: Get deployed endpoint hostname
+        # probably does not work on initial deployment due to timing
+        run: |
+          eval $ENV
+          ./get-k8s-ingress-hostname.sh
