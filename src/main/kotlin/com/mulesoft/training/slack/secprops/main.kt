@@ -15,9 +15,10 @@ import javax.servlet.annotation.WebServlet
 class MainServlet(app: SlackApp) : SlackAppServlet(app.app)
 
 /**
- * Main entrypoint to Socket-mode Slack app.
+ * Main entrypoint to Socket mode Slack app.
+ * Comment-out @QuarkusMain to not start in Socket mode.
  */
-@QuarkusMain
+//@QuarkusMain
 class MainApp(private val app: SlackApp) : QuarkusApplication {
     companion object {
         private val log = LoggerFactory.getLogger(MainApp::class.java)
