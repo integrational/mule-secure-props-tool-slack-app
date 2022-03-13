@@ -1,4 +1,4 @@
-package com.mulesoft.training.slack.secprops.rest
+package com.mulesoft.training.slack.secprops.about
 
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured.given

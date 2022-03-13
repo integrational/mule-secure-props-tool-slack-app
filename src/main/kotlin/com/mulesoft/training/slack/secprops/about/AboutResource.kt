@@ -1,4 +1,4 @@
-package com.mulesoft.training.slack.secprops.rest
+package com.mulesoft.training.slack.secprops.about
 
 import com.mulesoft.training.slack.secprops.config.QuarkusApp
 import javax.enterprise.context.ApplicationScoped
