@@ -12,6 +12,8 @@ cat k8s-resources.yaml                                              \
         -e 's,{{SLACK_SIGNING_SECRET}},'"$SLACK_SIGNING_SECRET"',g' \
         -e 's,{{SLACK_APP_TOKEN}},'"$SLACK_APP_TOKEN"',g'           \
         -e 's,{{SLACK_BOT_TOKEN}},'"$SLACK_BOT_TOKEN"',g'           \
+        -e 's,{{MONGODB_UNAME}},'"$MONGODB_UNAME"',g'               \
+        -e 's,{{MONGODB_PASSW}},'"$MONGODB_PASSW"',g'               \
   | kubectl apply -f -
 # trigger rollout (necessary because using image tag "latest" in Deployment's pod template, so the above apply only triggers a rollout upon creation but not upon update)
 kubectl rollout restart deployment/$APP -n $APP
