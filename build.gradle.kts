@@ -25,6 +25,7 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy")
     implementation("io.quarkus:quarkus-resteasy-jackson")
     implementation("io.quarkus:quarkus-smallrye-health")
+    implementation("io.quarkus:quarkus-mongodb-panache-kotlin")
     implementation("com.slack.api:bolt-servlet:$boltVersion")
     implementation("com.slack.api:slack-api-client-kotlin-extension:$boltVersion")
 

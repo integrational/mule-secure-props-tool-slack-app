@@ -4,7 +4,6 @@ import com.mulesoft.training.slack.secprops.slack.SlackApp
 import com.slack.api.bolt.servlet.SlackAppServlet
 import com.slack.api.bolt.socket_mode.SocketModeApp
 import io.quarkus.runtime.QuarkusApplication
-import io.quarkus.runtime.annotations.QuarkusMain
 import org.slf4j.LoggerFactory
 import javax.servlet.annotation.WebServlet
 
@@ -28,6 +27,7 @@ class MainApp(private val app: SlackApp) : QuarkusApplication {
         log.info("Starting Slack app in Socket mode")
         SocketModeApp(app.app).start()
         log.info("Stopped Slack app in Socket mode")
+
         return 0
     }
 }
