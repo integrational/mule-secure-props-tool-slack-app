@@ -3,7 +3,6 @@ package com.mulesoft.training.slack.secprops.slack
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Method
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation
-import com.slack.api.app_backend.slash_commands.response.SlashCommandResponse
 import com.slack.api.bolt.App
 import com.slack.api.bolt.context.builtin.SlashCommandContext
 import com.slack.api.bolt.request.builtin.SlashCommandRequest
@@ -55,8 +54,8 @@ private data class ToolArgs(
     val algorithm: String, val mode: String, val key: String, val value: String, val useRandomIVs: Boolean
 ) {
     companion object {
-        fun fromText(text: String) = try {
-            text.split(' ').let {
+        fun fromText(text: String?) = try {
+            text?.split(' ')?.let {
                 ToolArgs(
                     algorithm = it[0],
                     mode = it[1],
