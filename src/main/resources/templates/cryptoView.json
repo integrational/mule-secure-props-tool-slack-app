@@ -1,0 +1,175 @@
+{
+  "type": "modal",
+  "callback_id": "{operationTitleCase.toLowerCase()}",
+  "notify_on_close": false,
+  "title": {
+    "type": "plain_text",
+    "text": "{operationTitleCase} a String"
+  },
+  "submit": {
+    "type": "plain_text",
+    "text": "{operationTitleCase}"
+  },
+  "close": {
+    "type": "plain_text",
+    "text": "Cancel"
+  },
+  "blocks": [
+    {
+      "type": "input",
+      "block_id": "value",
+      "label": {
+        "type": "plain_text",
+        "text": "Value"
+      },
+      "element": {
+        "type": "plain_text_input",
+        "action_id": "value",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Value to {operationTitleCase.toLowerCase()}"
+        }
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "input",
+      "block_id": "key",
+      "label": {
+        "type": "plain_text",
+        "text": "Key"
+      },
+      "element": {
+        "type": "plain_text_input",
+        "action_id": "key",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Encryption key"
+        }
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "algorithm",
+      "label": {
+        "type": "plain_text",
+        "text": "Algorithm"
+      },
+      "element": {
+        "type": "static_select",
+        "action_id": "algorithm",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select an algorithm"
+        },
+        "initial_option": {
+          "text": {
+            "type": "plain_text",
+            "text": "AES"
+          },
+          "value": "AES"
+        },
+        "options": [
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "AES"
+            },
+            "value": "AES"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "Blowfish"
+            },
+            "value": "Blowfish"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "DES"
+            },
+            "value": "DES"
+          }
+        ]
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "mode",
+      "label": {
+        "type": "plain_text",
+        "text": "Mode"
+      },
+      "element": {
+        "type": "static_select",
+        "action_id": "mode",
+        "placeholder": {
+          "type": "plain_text",
+          "text": "Select a mode"
+        },
+        "initial_option": {
+          "text": {
+            "type": "plain_text",
+            "text": "CBC"
+          },
+          "value": "CBC"
+        },
+        "options": [
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "CBC"
+            },
+            "value": "CBC"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "CFB"
+            },
+            "value": "CFB"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "ECB"
+            },
+            "value": "ECB"
+          },
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "OFB"
+            },
+            "value": "OFB"
+          }
+        ]
+      }
+    },
+    {
+      "type": "input",
+      "block_id": "useRandomIVs",
+      "label": {
+        "type": "plain_text",
+        "text": "Use Random IVs"
+      },
+      "optional": true,
+      "element": {
+        "type": "checkboxes",
+        "action_id": "useRandomIVs",
+        "options": [
+          {
+            "text": {
+              "type": "plain_text",
+              "text": "Use random IVs"
+            },
+            "value": "true"
+          }
+        ]
+      }
+    }
+  ]
+}

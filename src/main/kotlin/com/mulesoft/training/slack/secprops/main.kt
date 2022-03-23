@@ -4,6 +4,7 @@ import com.mulesoft.training.slack.secprops.slack.SlackApp
 import com.slack.api.bolt.servlet.SlackAppServlet
 import com.slack.api.bolt.socket_mode.SocketModeApp
 import io.quarkus.runtime.QuarkusApplication
+import io.quarkus.runtime.annotations.QuarkusMain
 import org.slf4j.LoggerFactory
 import javax.servlet.annotation.WebServlet
 

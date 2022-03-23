@@ -3,8 +3,12 @@ package com.mulesoft.training.slack.secprops.slack
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Method
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation
+import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation.DECRYPT
+import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation.ENCRYPT
 import com.slack.api.bolt.App
+import com.slack.api.bolt.context.builtin.GlobalShortcutContext
 import com.slack.api.bolt.context.builtin.SlashCommandContext
+import com.slack.api.bolt.request.builtin.GlobalShortcutRequest
 import com.slack.api.bolt.request.builtin.SlashCommandRequest
 import com.slack.api.bolt.response.Response
 import com.slack.api.model.block.Blocks.asBlocks
@@ -18,17 +22,35 @@ import javax.enterprise.context.ApplicationScoped
  * Configures and provides access to the Slack Bolt [App].
  */
 @ApplicationScoped
-class SlackApp(private val tool: SecurePropertiesToolFacade) {
+class SlackApp(private val tool: SecurePropertiesToolFacade, private val views: Views) {
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java)
     }
 
     val app = App().apply {
-        command("/encrypt") { req, ctx -> crypto(Operation.ENCRYPT, req, ctx) }
-        command("/decrypt") { req, ctx -> crypto(Operation.DECRYPT, req, ctx) }
+        command("/encrypt") { req, ctx -> cryptoBySlashCommand(ENCRYPT, req, ctx) }
+        command("/decrypt") { req, ctx -> cryptoBySlashCommand(DECRYPT, req, ctx) }
+
+        globalShortcut("encrypt") { req, ctx -> openCryptoModalByGlobalShortcut(ENCRYPT, req, ctx) }
+        globalShortcut("decrypt") { req, ctx -> openCryptoModalByGlobalShortcut(DECRYPT, req, ctx) }
+
+        viewSubmission("encrypt") { req, ctx ->
+            log.info("Handling view submission for ${req.payload.view.callbackId} with value ${req.payload.view.state.values}")
+            val vals = req.payload.view.state.values
+            val value = vals["value"]?.get("value")?.value
+            val key = vals["key"]?.get("key")?.value
+            val algorithm = vals["algorithm"]?.get("algorithm")?.selectedOption?.value
+            val mode = vals["mode"]?.get("mode")?.selectedOption?.value
+            val useRandomIVs =
+                vals["useRandomIVs"]?.get("useRandomIVs")?.selectedOptions?.getOrNull(0)?.value.toBoolean()
+            log.info("encrypt $value $key $algorithm $mode $useRandomIVs")
+            ctx.ack()
+        }
     }
 
-    private fun crypto(operation: Operation, req: SlashCommandRequest, ctx: SlashCommandContext): Response {
+    private fun cryptoBySlashCommand(
+        operation: Operation, req: SlashCommandRequest, ctx: SlashCommandContext
+    ): Response {
         log.info("Handling command ${req.payload.command} with text '${req.payload.text}'")
         val args = ToolArgs.fromText(req.payload.text)
         return if (args == null) {
@@ -46,6 +68,21 @@ class SlackApp(private val tool: SecurePropertiesToolFacade) {
         }.also {
             log.info("Responding to command ${req.payload.command} with '$it'")
         }
+    }
+
+    private fun openCryptoModalByGlobalShortcut(
+        operation: Operation, req: GlobalShortcutRequest, ctx: GlobalShortcutContext
+    ): Response {
+        log.info("Handling global shortcut ${req.payload.callbackId}")
+        val view = when (operation) {
+            ENCRYPT -> views.encrypt()
+            DECRYPT -> views.decrypt()
+        }
+        val resp = ctx.client().viewsOpen {
+            it.triggerId(ctx.triggerId).viewAsString(view)
+        }
+        log.debug("Opening encrypt view returned ok=${resp}")
+        return ctx.ack() // always ack, no matter the success of opening the modal
     }
 }
 
