@@ -33,3 +33,6 @@ image:https://github.com/integrational/mule-secure-props-tool-slack-app/workflow
 . refined build
 . defined slash commands:
 . implement Secure Properties Tool facade and delegate
+. added support for persistence (such as of settings) to MongoDB via Panache
+. added Qute template to serve Block Kit views
+. added global shortcut
