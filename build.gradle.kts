@@ -53,3 +53,14 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
     kotlinOptions.javaParameters = true
 }
+
+// required by default config of Heroku build pack
+tasks.register("stage") {
+    description = "Task stage run by default by the Heroku build pack"
+    dependsOn("build", "clean") // may result in clean running after build
+}
+
+// require build to run after clean
+tasks.named("build") {
+    mustRunAfter("clean")
+}
