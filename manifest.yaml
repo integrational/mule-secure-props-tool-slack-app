@@ -33,6 +33,11 @@ oauth_config:
       - app_mentions:read
       - commands
 settings:
+  event_subscriptions:
+    request_url: https://mule-secure-props-tool-slack.herokuapp.com/slack
+    bot_events:
+      - app_home_opened
+      - app_mention
   interactivity:
     is_enabled: true
     request_url: https://mule-secure-props-tool-slack.herokuapp.com/slack
