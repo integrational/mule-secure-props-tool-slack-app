@@ -1,0 +1,40 @@
+display_information:
+  name: Mule Secure Props Tool
+  description: Use the Mule Secure Properties Tool from Slack
+  background_color: "#00a0df"
+  long_description: Use Slack to interact with an instance of the Secure Properties Tool (https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties#secure_props_tool). The tool runs as part of the server-side infrastructure of this Slack app and can simply be invoked with Slack slash commands. Apart from installing this app, there are no additional installation or configuration requirements.
+features:
+  bot_user:
+    display_name: Mule Secure Props Tool
+    always_online: false
+  shortcuts:
+    - name: Decrypt
+      type: global
+      callback_id: decrypt
+      description: Decrypt an encrypted String using the Mule Secure Properties Tool
+    - name: Encrypt
+      type: global
+      callback_id: encrypt
+      description: Encrypt a String using the Mule Secure Properties Tool
+  slash_commands:
+    - command: /encrypt
+      url: http://a2c6f86dbf1e34c238b943cb39755e71-2065803608.eu-central-1.elb.amazonaws.com/slack/events
+      description: Encrypt a string
+      usage_hint: algorithm mode key value [use random IVs]
+      should_escape: false
+    - command: /decrypt
+      url: http://a2c6f86dbf1e34c238b943cb39755e71-2065803608.eu-central-1.elb.amazonaws.com/slack/events
+      description: Decrypt an encrypted string
+      usage_hint: algorithm mode key value [use random IVs]
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - app_mentions:read
+      - commands
+settings:
+  interactivity:
+    is_enabled: true
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false
