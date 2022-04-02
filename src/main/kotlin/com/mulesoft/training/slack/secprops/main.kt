@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory
 import javax.servlet.annotation.WebServlet
 
 /**
- * Main entrypoint to Events API Slack app
+ * Main entrypoint to Slack app for all types of requests from Slack
  */
-@WebServlet("/slack/events")
+@WebServlet("/slack")
 class MainServlet(app: SlackApp) : SlackAppServlet(app.app)
 
 /**

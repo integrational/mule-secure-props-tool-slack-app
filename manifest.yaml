@@ -8,22 +8,22 @@ features:
     display_name: Mule Secure Props Tool
     always_online: false
   shortcuts:
-    - name: Decrypt
-      type: global
-      callback_id: decrypt
-      description: Decrypt an encrypted String using the Mule Secure Properties Tool
     - name: Encrypt
       type: global
       callback_id: encrypt
       description: Encrypt a String using the Mule Secure Properties Tool
+    - name: Decrypt
+      type: global
+      callback_id: decrypt
+      description: Decrypt an encrypted String using the Mule Secure Properties Tool
   slash_commands:
     - command: /encrypt
-      url: http://a2c6f86dbf1e34c238b943cb39755e71-2065803608.eu-central-1.elb.amazonaws.com/slack/events
+      url: https://mule-secure-props-tool-slack.herokuapp.com/slack
       description: Encrypt a string
       usage_hint: algorithm mode key value [use random IVs]
       should_escape: false
     - command: /decrypt
-      url: http://a2c6f86dbf1e34c238b943cb39755e71-2065803608.eu-central-1.elb.amazonaws.com/slack/events
+      url: https://mule-secure-props-tool-slack.herokuapp.com/slack
       description: Decrypt an encrypted string
       usage_hint: algorithm mode key value [use random IVs]
       should_escape: false
@@ -35,6 +35,7 @@ oauth_config:
 settings:
   interactivity:
     is_enabled: true
+    request_url: https://mule-secure-props-tool-slack.herokuapp.com/slack
   org_deploy_enabled: false
-  socket_mode_enabled: true
+  socket_mode_enabled: false
   token_rotation_enabled: false
