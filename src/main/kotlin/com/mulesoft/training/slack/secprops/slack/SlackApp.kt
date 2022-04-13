@@ -49,11 +49,6 @@ class SlackApp(
             log.info("encrypt $value $key $algorithm $mode $useRandomIVs")
             val result = 666
             ctx.ackWithUpdate(view2)
-            ctx.respond(asBlocks(section { it.text(markdownText("```$result```")) }))
-//            ctx.asyncClient().viewsPush {
-//                it.viewAsString("")
-//            }
-            ctx.ack()
         }
     }
 
