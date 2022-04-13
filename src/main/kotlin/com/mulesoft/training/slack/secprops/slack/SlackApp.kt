@@ -46,30 +46,16 @@ class SlackApp(
             val mode = vals["mode"]?.get("mode")?.selectedOption?.value
             val useRandomIVs =
                 vals["useRandomIVs"]?.get("useRandomIVs")?.selectedOptions?.getOrNull(0)?.value.toBoolean()
-            log.info("encrypt $value $key $algorithm $mode $useRandomIVs")
-            val result = 666
-            ctx.ackWithUpdate(view2)
+            try {
+                val result = tool.invoke(
+                    Method.STRING, ENCRYPT, algorithm ?: "", mode ?: "", key ?: "", value ?: "", useRandomIVs
+                )
+                ctx.ackWithUpdate(views.encryptedResult(result))
+            } catch (e: Throwable) {
+                ctx.ackWithErrors(mapOf("Execution error" to e.message))
+            }
         }
     }
-
-    val view2 = """
-        {
-            "type": "modal",
-            "title": {
-                "type": "plain_text",
-                "text": "Updated view"
-            },
-            "blocks": [
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "I've changed and I'll never be the same. You must believe me."
-                    }
-                }
-            ]
-        }
-    """.trimIndent()
 
     private fun cryptoBySlashCommand(
         operation: Operation, req: SlashCommandRequest, ctx: SlashCommandContext

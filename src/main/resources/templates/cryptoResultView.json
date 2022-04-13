@@ -1,0 +1,21 @@
+{
+  "type": "modal",
+  "notify_on_close": false,
+  "title": {
+    "type": "plain_text",
+    "text": "{operationPastTenseTitleCase} String"
+  },
+  "close": {
+    "type": "plain_text",
+    "text": "Close"
+  },
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "```{result}```"
+      }
+    }
+  ]
+}
