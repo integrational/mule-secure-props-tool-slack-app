@@ -60,7 +60,7 @@ class SlackApp(private val tool: SecurePropertiesToolFacade, private val views: 
                 val result = tool.invoke(
                     Method.STRING, operation, args.algorithm, args.mode, args.key, args.value, args.useRandomIVs
                 )
-                // return result as Markdown code block
+                // return result as Markdown code block in ephemeral message
                 ctx.ack(asBlocks(section { it.text(markdownText("```$result```")) }))
             } catch (e: Throwable) {
                 ctx.ack(":warning: ${e.message}") // failed to invoke tool, respond with exception message
@@ -78,10 +78,10 @@ class SlackApp(private val tool: SecurePropertiesToolFacade, private val views: 
             ENCRYPT -> views.encrypt()
             DECRYPT -> views.decrypt()
         }
-        val resp = ctx.client().viewsOpen {
+        // open modal view async and don't wait for completion
+        ctx.asyncClient().viewsOpen {
             it.triggerId(ctx.triggerId).viewAsString(view)
         }
-        log.debug("Opening encrypt view returned ok=${resp}")
         return ctx.ack() // always ack, no matter the success of opening the modal
     }
 }
