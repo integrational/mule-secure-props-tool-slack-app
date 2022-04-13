@@ -22,7 +22,10 @@ import javax.enterprise.context.ApplicationScoped
  * Configures and provides access to the Slack Bolt [App].
  */
 @ApplicationScoped
-class SlackApp(private val tool: SecurePropertiesToolFacade, private val views: Views) {
+class SlackApp(
+    private val tool: SecurePropertiesToolFacade,
+    private val views: Views
+) {
     companion object {
         private val log = LoggerFactory.getLogger(SlackApp::class.java)
     }
@@ -44,6 +47,11 @@ class SlackApp(private val tool: SecurePropertiesToolFacade, private val views: 
             val useRandomIVs =
                 vals["useRandomIVs"]?.get("useRandomIVs")?.selectedOptions?.getOrNull(0)?.value.toBoolean()
             log.info("encrypt $value $key $algorithm $mode $useRandomIVs")
+            val result = 666
+            ctx.respond(asBlocks(section { it.text(markdownText("```$result```")) }))
+//            ctx.asyncClient().viewsPush {
+//                it.viewAsString("")
+//            }
             ctx.ack()
         }
     }
