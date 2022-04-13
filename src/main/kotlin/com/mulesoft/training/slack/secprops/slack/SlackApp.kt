@@ -24,7 +24,7 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class SlackApp(private val tool: SecurePropertiesToolFacade, private val views: Views) {
     companion object {
-        private val log = LoggerFactory.getLogger(this::class.java)
+        private val log = LoggerFactory.getLogger(SlackApp::class.java)
     }
 
     val app = App().apply {
