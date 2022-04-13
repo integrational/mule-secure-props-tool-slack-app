@@ -1,7 +1,7 @@
 package com.mulesoft.training.slack.secprops.slack
 
-import com.mulesoft.training.slack.secprops.slack.Templates.cryptoView
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoResultView
+import com.mulesoft.training.slack.secprops.slack.Templates.cryptoView
 import io.quarkus.qute.CheckedTemplate
 import io.quarkus.qute.TemplateInstance
 import javax.enterprise.context.ApplicationScoped
