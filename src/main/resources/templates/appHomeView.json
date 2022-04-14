@@ -1,0 +1,49 @@
+{
+  "type": "home",
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Use Slack to interact with an instance of the <https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties#secure_props_tool|Mule Secure Properties Tool>."
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "The tool runs as part of the server-side infrastructure of this Slack app and can simply be invoked with Slack slash commands or global shortcuts. Apart from installing this app, there are no additional installation or configuration requirements."
+      }
+    },
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Usage"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Encrypt a string*: Slash command `{encryptSlashCommand}` or global shortcut `{encryptGlobalShortcut}`"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Decrypt an encrypted string*: Slash command `{decryptSlashCommand}` or global shortcut `{decryptGlobalShortcut}`"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "<mailto:gerald@integrational.eu|Gerald Loeffler> | <https://github.com/integrational/mule-secure-props-tool-slack-app|GitHub>"
+        }
+      ]
+    }
+  ]
+}

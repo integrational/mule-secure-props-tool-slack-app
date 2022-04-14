@@ -7,6 +7,7 @@ import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCR
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_SLASH_CMD
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_SLASH_CMD
 import com.slack.api.bolt.App
+import com.slack.api.model.event.AppHomeOpenedEvent
 import javax.enterprise.context.ApplicationScoped
 
 
@@ -15,12 +16,15 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class SlackApp(
+    private val appHomeController: AppHomeController,
     private val globalShortcutController: GlobalShortcutController,
     private val modalController: ModalController,
     private val slashCommandController: SlashCommandController
 ) {
 
     val app = App().apply {
+        event(AppHomeOpenedEvent::class.java) { payload, ctx -> appHomeController.publishAppHome(payload, ctx) }
+
         globalShortcut(ENCRYPT_SHORTCUT) { req, ctx -> globalShortcutController.openModalByGlobalShortcut(req, ctx) }
         globalShortcut(DECRYPT_SHORTCUT) { req, ctx -> globalShortcutController.openModalByGlobalShortcut(req, ctx) }
 
@@ -30,4 +34,5 @@ class SlackApp(
         command(ENCRYPT_SLASH_CMD) { req, ctx -> slashCommandController.cryptoBySlashCommand(req, ctx) }
         command(DECRYPT_SLASH_CMD) { req, ctx -> slashCommandController.cryptoBySlashCommand(req, ctx) }
     }
+
 }

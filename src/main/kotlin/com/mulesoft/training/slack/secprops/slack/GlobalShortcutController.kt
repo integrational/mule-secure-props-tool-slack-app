@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped
-class GlobalShortcutController(
-    private val modalController: ModalController
-) {
+class GlobalShortcutController(private val modalController: ModalController) {
     companion object {
         val ENCRYPT_SHORTCUT = Operation.ENCRYPT.arg
         val DECRYPT_SHORTCUT = Operation.DECRYPT.arg
