@@ -43,7 +43,7 @@ class ModalController(
         log.info("Handling view submission for $cbId with values '$vals'")
         val oper = operationFromCallbackId(cbId)
         val args = parseViewSubmissionValues(vals)
-        return if (args == null) {
+        return if (!args.isComplete()) {
             ctx.ackWithErrors(mapOf("Missing arguments" to "algorithm mode key value [use random IVs]"))
         } else {
             try {
@@ -58,17 +58,20 @@ class ModalController(
         }
     }
 
-    private fun parseViewSubmissionValues(vals: Map<String, Map<String, ViewState.Value>>?) = try {
-        vals?.let {
-            ToolArgs(
-                algorithm = it["algorithm"]?.get("algorithm")?.selectedOption!!.value,
-                mode = it["mode"]?.get("mode")?.selectedOption!!.value,
-                key = it["key"]?.get("key")!!.value,
-                value = it["value"]?.get("value")!!.value,
-                useRandomIVs = it["useRandomIVs"]?.get("useRandomIVs")?.selectedOptions?.getOrNull(0)?.value.toBoolean()
-            )
+    private fun parseViewSubmissionValues(vals: Map<String, Map<String, ViewState.Value>>?) = vals?.let {
+        ToolArgs(
+            algorithm = tryOrNull { it["algorithm"]?.get("algorithm")?.selectedOption?.value },
+            mode = tryOrNull { it["mode"]?.get("mode")?.selectedOption?.value },
+            key = tryOrNull { it["key"]?.get("key")?.value },
+            value = tryOrNull { it["value"]?.get("value")?.value },
+            useRandomIVs = tryOrNull { it["useRandomIVs"]?.get("useRandomIVs")?.selectedOptions?.getOrNull(0)?.value.toBoolean() }
+        )
+    } ?: ToolArgs()
+
+    private inline fun <T> tryOrNull(f: () -> T) =
+        try {
+            f()
+        } catch (_: Exception) {
+            null
         }
-    } catch (e: Throwable) {
-        null // if any missing arg or unexpected view structure
-    }
 }

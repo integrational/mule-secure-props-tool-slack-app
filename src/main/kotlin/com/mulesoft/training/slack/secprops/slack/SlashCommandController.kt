@@ -34,7 +34,7 @@ class SlashCommandController(
         log.info("Handling command $cmd with text '$txt'")
         val oper = operationFromSlashCommand(cmd)
         val args = parseSlashCommandText(txt)
-        return if (args == null) {
+        return if (!args.isComplete()) {
             log.info("Missing arguments: opening modal instead of performing crypto")
             modalController.openModal(ctx.asyncClient(), ctx.triggerId, oper)
             ctx.ack() // always ack, no matter the success of opening the modal
@@ -51,17 +51,14 @@ class SlashCommandController(
         }
     }
 
-    private fun parseSlashCommandText(text: String?) = try {
-        text?.split(' ')?.let {
-            ToolArgs(
-                algorithm = it[0],
-                mode = it[1],
-                key = it[2],
-                value = it[3],
-                useRandomIVs = it.getOrNull(4).toBoolean()
-            )
-        }
-    } catch (e: Throwable) {
-        null // if not sufficient args
-    }
+    private fun parseSlashCommandText(text: String?) = text?.split(' ')?.let {
+        ToolArgs(
+            algorithm = it.getOrNull(0),
+            mode = it.getOrNull(1),
+            key = it.getOrNull(2),
+            value = it.getOrNull(3),
+            useRandomIVs = it.getOrNull(4).toBoolean()
+        )
+    } ?: ToolArgs()
+
 }
