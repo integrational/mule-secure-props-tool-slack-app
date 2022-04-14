@@ -17,9 +17,7 @@ class AppHomeController(private val views: Views) {
     fun publishAppHome(payload: EventsApiPayload<AppHomeOpenedEvent>, ctx: EventContext): Response {
         log.info("Handling event ${payload.event.type}")
         ctx.asyncClient().viewsPublish {
-            it.userId(payload.event.user)
-                .hash(payload.event.view.hash)
-                .viewAsString(views.appHome())
+            it.userId(payload.event.user).viewAsString(views.appHome())
         }
         return ctx.ack() // always ack, no matter the success of publishing the view
     }
