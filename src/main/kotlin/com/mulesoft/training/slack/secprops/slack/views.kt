@@ -1,5 +1,7 @@
 package com.mulesoft.training.slack.secprops.slack
 
+import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.DECRYPT_CALLBACK_ID
+import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCRYPT_CALLBACK_ID
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoResultView
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoView
 import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation
@@ -15,8 +17,8 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class Views {
     fun crypto(operation: Operation) = when (operation) {
-        ENCRYPT -> cryptoView("Encrypt", ENCRYPT.arg)
-        DECRYPT -> cryptoView("Decrypt", DECRYPT.arg)
+        ENCRYPT -> cryptoView("Encrypt", ENCRYPT_CALLBACK_ID)
+        DECRYPT -> cryptoView("Decrypt", DECRYPT_CALLBACK_ID)
     }.render()
 
     fun cryptoResult(operation: Operation, result: String) = when (operation) {
