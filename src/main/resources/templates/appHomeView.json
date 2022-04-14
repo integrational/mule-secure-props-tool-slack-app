@@ -2,10 +2,17 @@
   "type": "home",
   "blocks": [
     {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Encrypt/decrypt with the Mule Secure Properties Tool"
+      }
+    },
+    {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "Use Slack to interact with an instance of the <https://docs.mulesoft.com/mule-runtime/latest/secure-configuration-properties#secure_props_tool|Mule Secure Properties Tool>."
+        "text": "From Slack encrypt or decrypt values using an instance of the <https://docs.mulesoft.com/mule-runtime/4.4/secure-configuration-properties#secure_props_tool|Mule Secure Properties Tool>."
       }
     },
     {

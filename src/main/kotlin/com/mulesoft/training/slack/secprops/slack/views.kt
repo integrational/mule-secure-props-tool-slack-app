@@ -4,7 +4,9 @@ import com.mulesoft.training.slack.secprops.slack.GlobalShortcutController.Compa
 import com.mulesoft.training.slack.secprops.slack.GlobalShortcutController.Companion.ENCRYPT_SHORTCUT
 import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.DECRYPT_CALLBACK_ID
 import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCRYPT_CALLBACK_ID
+import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_ARGS
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_SLASH_CMD
+import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_ARGS
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_SLASH_CMD
 import com.mulesoft.training.slack.secprops.slack.Templates.appHomeView
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoResultView
@@ -21,7 +23,10 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class Views {
-    fun appHome() = appHomeView(ENCRYPT_SHORTCUT, DECRYPT_SHORTCUT, ENCRYPT_SLASH_CMD, DECRYPT_SLASH_CMD).render()
+    fun appHome() = appHomeView(
+        ENCRYPT_SHORTCUT, DECRYPT_SHORTCUT,
+        "$ENCRYPT_SLASH_CMD $ENCRYPT_ARGS", "$DECRYPT_SLASH_CMD $DECRYPT_ARGS"
+    ).render()
 
     fun crypto(operation: Operation) = when (operation) {
         ENCRYPT -> cryptoView("Encrypt", ENCRYPT_CALLBACK_ID)
