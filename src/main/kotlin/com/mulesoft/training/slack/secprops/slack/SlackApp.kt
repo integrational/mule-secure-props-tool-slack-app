@@ -16,13 +16,13 @@ class SlackApp(
 ) {
 
     val app = App().apply {
-        globalShortcut("encrypt") { req, ctx -> modalController.openModalByGlobalShortcut(ENCRYPT, req, ctx) }
-        globalShortcut("decrypt") { req, ctx -> modalController.openModalByGlobalShortcut(DECRYPT, req, ctx) }
+        globalShortcut(ENCRYPT.arg) { req, ctx -> modalController.openModalByGlobalShortcut(req, ctx) }
+        globalShortcut(DECRYPT.arg) { req, ctx -> modalController.openModalByGlobalShortcut(req, ctx) }
 
-        viewSubmission("encrypt") { req, ctx -> modalController.cryptoByViewSubmission(ENCRYPT, req, ctx) }
-        viewSubmission("decrypt") { req, ctx -> modalController.cryptoByViewSubmission(DECRYPT, req, ctx) }
+        viewSubmission(ENCRYPT.arg) { req, ctx -> modalController.cryptoByViewSubmission(req, ctx) }
+        viewSubmission(DECRYPT.arg) { req, ctx -> modalController.cryptoByViewSubmission(req, ctx) }
 
-        command("/encrypt") { req, ctx -> slashCommandController.cryptoBySlashCommand(ENCRYPT, req, ctx) }
-        command("/decrypt") { req, ctx -> slashCommandController.cryptoBySlashCommand(DECRYPT, req, ctx) }
+        command("/${ENCRYPT.arg}") { req, ctx -> slashCommandController.cryptoBySlashCommand(req, ctx) }
+        command("/${DECRYPT.arg}") { req, ctx -> slashCommandController.cryptoBySlashCommand(req, ctx) }
     }
 }

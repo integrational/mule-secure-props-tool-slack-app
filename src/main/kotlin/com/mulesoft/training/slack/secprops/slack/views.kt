@@ -2,6 +2,9 @@ package com.mulesoft.training.slack.secprops.slack
 
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoResultView
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoView
+import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation
+import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation.DECRYPT
+import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Operation.ENCRYPT
 import io.quarkus.qute.CheckedTemplate
 import io.quarkus.qute.TemplateInstance
 import javax.enterprise.context.ApplicationScoped
@@ -11,11 +14,15 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class Views {
-    fun encrypt() = cryptoView("Encrypt").render()
-    fun decrypt() = cryptoView("Decrypt").render()
+    fun crypto(operation: Operation) = when (operation) {
+        ENCRYPT -> cryptoView("Encrypt", ENCRYPT.arg)
+        DECRYPT -> cryptoView("Decrypt", DECRYPT.arg)
+    }.render()
 
-    fun encryptedResult(result: String) = cryptoResultView("Encrypted", result).render()
-    fun decryptedResult(result: String) = cryptoResultView("Decrypted", result).render()
+    fun cryptoResult(operation: Operation, result: String) = when (operation) {
+        ENCRYPT -> cryptoResultView("Encrypted", result)
+        DECRYPT -> cryptoResultView("Decrypted", result)
+    }.render()
 }
 
 /**
@@ -25,7 +32,7 @@ class Views {
 @CheckedTemplate
 object Templates {
     @JvmStatic
-    external fun cryptoView(operationTitleCase: String): TemplateInstance
+    external fun cryptoView(operationTitleCase: String, callbackId: String): TemplateInstance
 
     @JvmStatic
     external fun cryptoResultView(operationPastTenseTitleCase: String, result: String): TemplateInstance

@@ -11,7 +11,11 @@ interface SecurePropertiesToolFacade {
     }
 
     enum class Operation(val arg: String) {
-        ENCRYPT("encrypt"), DECRYPT("decrypt")
+        ENCRYPT("encrypt"), DECRYPT("decrypt");
+
+        companion object {
+            fun fromArg(arg: String): Operation = values().find { it.arg == arg } ?: throw NoSuchElementException(arg)
+        }
     }
 
     /**

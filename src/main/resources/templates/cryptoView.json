@@ -1,6 +1,6 @@
 {
   "type": "modal",
-  "callback_id": "{operationTitleCase.toLowerCase()}",
+  "callback_id": "{callbackId}",
   "notify_on_close": false,
   "title": {
     "type": "plain_text",
