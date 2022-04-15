@@ -7,6 +7,8 @@ import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCR
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_SLASH_CMD
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_SLASH_CMD
 import com.slack.api.bolt.App
+import com.slack.api.bolt.service.builtin.FileInstallationService
+import com.slack.api.bolt.service.builtin.FileOAuthStateService
 import com.slack.api.model.event.AppHomeOpenedEvent
 import javax.enterprise.context.ApplicationScoped
 
@@ -23,6 +25,8 @@ class SlackApp(
 ) {
     val app = App().apply {
         asOAuthApp(true)
+        service(FileInstallationService(config()).apply { isHistoricalDataEnabled = true })
+        service(FileOAuthStateService(config()))
 
         event(AppHomeOpenedEvent::class.java) { payload, ctx -> appHomeController.publishAppHome(payload, ctx) }
 
