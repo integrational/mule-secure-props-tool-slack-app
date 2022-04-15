@@ -2,6 +2,8 @@
 
 image:https://github.com/integrational/mule-secure-props-tool-slack-app/workflows/Build%20Deploy/badge.svg[]
 
+Page with "Add to Slack" button: https://mule-secure-props-tool-slack.herokuapp.com/add_to_slack.html
+
 == Setup
 
 . Populate file `.env` from the template file `env-template`
@@ -21,21 +23,4 @@ image:https://github.com/integrational/mule-secure-props-tool-slack-app/workflow
 - ngrok
 - Docker
 - kubectl
-
-== Log
-
-. bootstrap from https://code.quarkus.io/ with Undertow Servlet and Kotlin
-. `./gradlew wrapper --gradle-version=7.4 --distribution-type=bin`
-. create `.env` and `env-template`
-. create shell scripts for build and run
-. added Bolt as per https://slack.dev/java-slack-sdk/guides/supported-web-frameworks
-. tweaked Kotlin code, changed exposed port to 3000 to match node
-. added about REST resource and MicroProfile Health endpoints
-. added infrastructure and k8s scripts
-. added Slack Socket-mode on top of Events API
-. refined build
-. defined slash commands:
-. implement Secure Properties Tool facade and delegate
-. added support for persistence (such as of settings) to MongoDB via Panache
-. added Qute template to serve Block Kit views
-. added global shortcut
+- Heroku
