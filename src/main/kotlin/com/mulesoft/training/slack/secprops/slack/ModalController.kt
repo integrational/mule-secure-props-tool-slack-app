@@ -18,8 +18,8 @@ class ModalController(
     private val tool: SecurePropertiesToolFacade
 ) {
     companion object {
-        val ENCRYPT_CALLBACK_ID = Operation.ENCRYPT.arg
-        val DECRYPT_CALLBACK_ID = Operation.DECRYPT.arg
+        val ENCRYPT_VIEW_CBID = Operation.ENCRYPT.arg // callback ID used by encrypt modal view
+        val DECRYPT_VIEW_CBID = Operation.DECRYPT.arg // callback ID used by decrypt modal view
 
         fun operationFromCallbackId(cbId: String) = Operation.fromArg(cbId)
     }
@@ -40,7 +40,7 @@ class ModalController(
     fun cryptoByViewSubmission(req: ViewSubmissionRequest, ctx: ViewSubmissionContext): Response {
         val cbId = req.payload.view.callbackId // the callback ID as stated in the submitted view
         val vals = req.payload.view.state.values // the state values in the view submission
-        log.info("Handling view submission for $cbId with values '$vals'")
+        log.info("Handling view submission with callback ID $cbId and values '$vals'")
         val oper = operationFromCallbackId(cbId)
         val args = parseViewSubmissionValues(vals)
         return if (!args.isComplete()) {

@@ -20,9 +20,6 @@ class SlashCommandController(
         val ENCRYPT_SLASH_CMD = "/" + Operation.ENCRYPT.arg
         val DECRYPT_SLASH_CMD = "/" + Operation.DECRYPT.arg
 
-        val ENCRYPT_ARGS = "algorithm mode key value [use random IVs]"
-        val DECRYPT_ARGS = "algorithm mode key value [use random IVs]"
-
         fun operationFromSlashCommand(cmd: String) = Operation.fromArg(cmd.trimStart('/')) // remove leading '/'
     }
 

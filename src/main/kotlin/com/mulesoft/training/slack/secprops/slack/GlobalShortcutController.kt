@@ -10,8 +10,11 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class GlobalShortcutController(private val modalController: ModalController) {
     companion object {
-        val ENCRYPT_SHORTCUT = Operation.ENCRYPT.arg
-        val DECRYPT_SHORTCUT = Operation.DECRYPT.arg
+        val ENCRYPT_SHORTCUT_CBID = Operation.ENCRYPT.arg // callback ID of encrypt global shortcut
+        val DECRYPT_SHORTCUT_CBID = Operation.DECRYPT.arg // callback ID of decrypt global shortcut
+
+        val ENCRYPT_SHORTCUT_NAME = "Encrypt" // user-visible name of encrypt global shortcut
+        val DECRYPT_SHORTCUT_NAME = "Decrypt" // user-visible name of decrypt global shortcut
 
         fun operationFromShortcut(shortcut: String) = Operation.fromArg(shortcut)
     }
@@ -21,10 +24,10 @@ class GlobalShortcutController(private val modalController: ModalController) {
     /**
      * In response to a global shortcut, open the corresponding modal.
      */
-    fun openModalByGlobalShortcut(req: GlobalShortcutRequest, ctx: GlobalShortcutContext): Response {
-        val shortcut = req.payload.callbackId // the global shortcut
-        log.info("Handling global shortcut $shortcut")
-        modalController.openModal(ctx.asyncClient(), ctx.triggerId, operationFromShortcut(shortcut))
+    fun openModal(req: GlobalShortcutRequest, ctx: GlobalShortcutContext): Response {
+        val cbid = req.payload.callbackId // the global shortcut's callback ID
+        log.info("Handling global shortcut with callback ID $cbid")
+        modalController.openModal(ctx.asyncClient(), ctx.triggerId, operationFromShortcut(cbid))
         return ctx.ack() // always ack, no matter the success of opening the modal
     }
 }

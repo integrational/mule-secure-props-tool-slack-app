@@ -16,13 +16,6 @@
       }
     },
     {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": "The tool runs as part of the server-side infrastructure of this Slack app and can simply be invoked with Slack slash commands or global shortcuts. Apart from installing this app, there are no additional installation or configuration requirements."
-      }
-    },
-    {
       "type": "header",
       "text": {
         "type": "plain_text",
@@ -33,14 +26,21 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Encrypt a string*: Slash command `{encryptSlashCommand}` or global shortcut `{encryptGlobalShortcut}`"
+        "text": "The encryption key must always be of a size supported by the alogithm. For example, 16 characters (such as `theEncryptionKey`) for `AES`."
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Decrypt an encrypted string*: Slash command `{decryptSlashCommand}` or global shortcut `{decryptGlobalShortcut}`"
+        "text": "*Encrypt a string*:\nWith global shortcut `{encryptGlobalShortcut}`\nor slash command `{encryptSlashCommand}`, for example ```{encryptSlashCommand} AES CBC theEncryptionKey thisIsTheValueToEncrypt true```"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Decrypt an encrypted string*:\nWith global shortcut `{decryptGlobalShortcut}`\nor slash command `{decryptSlashCommand}`, for example ```{decryptSlashCommand} AES CBC theEncryptionKey xi0sBSrryonNa6wXdi5bhW5iTJDdvyfr5YV96NXwneVwQPyf0JRCnRHG1syuGp0b true```"
       }
     },
     {

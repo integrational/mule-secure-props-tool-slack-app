@@ -1,12 +1,10 @@
 package com.mulesoft.training.slack.secprops.slack
 
-import com.mulesoft.training.slack.secprops.slack.GlobalShortcutController.Companion.DECRYPT_SHORTCUT
-import com.mulesoft.training.slack.secprops.slack.GlobalShortcutController.Companion.ENCRYPT_SHORTCUT
-import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.DECRYPT_CALLBACK_ID
-import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCRYPT_CALLBACK_ID
-import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_ARGS
+import com.mulesoft.training.slack.secprops.slack.GlobalShortcutController.Companion.DECRYPT_SHORTCUT_NAME
+import com.mulesoft.training.slack.secprops.slack.GlobalShortcutController.Companion.ENCRYPT_SHORTCUT_NAME
+import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.DECRYPT_VIEW_CBID
+import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCRYPT_VIEW_CBID
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_SLASH_CMD
-import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_ARGS
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_SLASH_CMD
 import com.mulesoft.training.slack.secprops.slack.Templates.appHomeView
 import com.mulesoft.training.slack.secprops.slack.Templates.cryptoResultView
@@ -24,13 +22,12 @@ import javax.enterprise.context.ApplicationScoped
 @ApplicationScoped
 class Views {
     fun appHome() = appHomeView(
-        ENCRYPT_SHORTCUT, DECRYPT_SHORTCUT,
-        "$ENCRYPT_SLASH_CMD $ENCRYPT_ARGS", "$DECRYPT_SLASH_CMD $DECRYPT_ARGS"
+        ENCRYPT_SHORTCUT_NAME, DECRYPT_SHORTCUT_NAME, ENCRYPT_SLASH_CMD, DECRYPT_SLASH_CMD
     ).render()
 
     fun crypto(operation: Operation) = when (operation) {
-        ENCRYPT -> cryptoView("Encrypt", ENCRYPT_CALLBACK_ID)
-        DECRYPT -> cryptoView("Decrypt", DECRYPT_CALLBACK_ID)
+        ENCRYPT -> cryptoView("Encrypt", ENCRYPT_VIEW_CBID)
+        DECRYPT -> cryptoView("Decrypt", DECRYPT_VIEW_CBID)
     }.render()
 
     fun cryptoResult(operation: Operation, result: String) = when (operation) {
