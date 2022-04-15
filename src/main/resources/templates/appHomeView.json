@@ -26,7 +26,7 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "The encryption key must always be of a size supported by the alogithm. For example, 16 characters (such as `theEncryptionKey`) for `AES`."
+        "text": "The encryption key must always be of a size supported by the algorithm. For example, 16 characters (such as `theEncryptionKey`) for `AES`."
       }
     },
     {
