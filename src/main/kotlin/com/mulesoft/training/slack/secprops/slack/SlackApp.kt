@@ -27,6 +27,7 @@ class SlackApp(
         asOAuthApp(true)
         service(FileInstallationService(config()).apply { isHistoricalDataEnabled = true })
         service(FileOAuthStateService(config()))
+        enableTokenRevocationHandlers()
 
         event(AppHomeOpenedEvent::class.java) { payload, ctx -> appHomeController.publishAppHome(payload, ctx) }
 
