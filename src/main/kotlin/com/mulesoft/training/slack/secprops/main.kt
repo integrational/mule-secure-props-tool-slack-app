@@ -2,17 +2,24 @@ package com.mulesoft.training.slack.secprops
 
 import com.mulesoft.training.slack.secprops.slack.SlackApp
 import com.slack.api.bolt.servlet.SlackAppServlet
+import com.slack.api.bolt.servlet.SlackOAuthAppServlet
 import com.slack.api.bolt.socket_mode.SocketModeApp
 import io.quarkus.runtime.QuarkusApplication
-import io.quarkus.runtime.annotations.QuarkusMain
 import org.slf4j.LoggerFactory
 import javax.servlet.annotation.WebServlet
 
 /**
- * Main entrypoint to Slack app for all types of requests from Slack
+ * Main entrypoint to Slack app for all types of requests from Slack.
  */
 @WebServlet("/slack")
 class MainServlet(app: SlackApp) : SlackAppServlet(app.app)
+
+/**
+ * Entrypoint to Slack app for OAuth v2 interactions.
+ * Paths must match `SLACK_INSTALL_PATH`, `SLACK_REDIRECT_URI_PATH` and the path of `SLACK_REDIRECT_URI`.
+ */
+@WebServlet("/oauth/start", "/oauth/callback")
+class OAuthServlet(app: SlackApp) : SlackOAuthAppServlet(app.app)
 
 /**
  * Main entrypoint to Socket mode Slack app.

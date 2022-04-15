@@ -21,8 +21,9 @@ class SlackApp(
     private val modalController: ModalController,
     private val slashCommandController: SlashCommandController
 ) {
-
     val app = App().apply {
+        asOAuthApp(true)
+
         event(AppHomeOpenedEvent::class.java) { payload, ctx -> appHomeController.publishAppHome(payload, ctx) }
 
         globalShortcut(ENCRYPT_SHORTCUT_CBID) { req, ctx -> globalShortcutController.openModal(req, ctx) }
@@ -34,5 +35,4 @@ class SlackApp(
         command(ENCRYPT_SLASH_CMD) { req, ctx -> slashCommandController.cryptoBySlashCommand(req, ctx) }
         command(DECRYPT_SLASH_CMD) { req, ctx -> slashCommandController.cryptoBySlashCommand(req, ctx) }
     }
-
 }
