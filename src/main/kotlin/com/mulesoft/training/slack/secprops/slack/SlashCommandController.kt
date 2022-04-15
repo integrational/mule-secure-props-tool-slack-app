@@ -6,8 +6,9 @@ import com.mulesoft.training.slack.secprops.tool.SecurePropertiesToolFacade.Oper
 import com.slack.api.bolt.context.builtin.SlashCommandContext
 import com.slack.api.bolt.request.builtin.SlashCommandRequest
 import com.slack.api.bolt.response.Response
-import com.slack.api.model.block.Blocks
-import com.slack.api.model.block.composition.BlockCompositions
+import com.slack.api.model.block.Blocks.asBlocks
+import com.slack.api.model.block.Blocks.section
+import com.slack.api.model.block.composition.BlockCompositions.markdownText
 import org.slf4j.LoggerFactory
 import javax.enterprise.context.ApplicationScoped
 
@@ -42,7 +43,7 @@ class SlashCommandController(
             try {
                 val result = args.invokeTool(tool, Method.STRING, oper)
                 // return result as Markdown code block in ephemeral message
-                ctx.ack(Blocks.asBlocks(Blocks.section { it.text(BlockCompositions.markdownText("```$result```")) }))
+                ctx.ack(asBlocks(section { it.text(markdownText("```$result```")) }))
             } catch (e: Throwable) {
                 ctx.ack(":warning: ${e.message}") // failed to invoke tool, respond with exception message
             }
