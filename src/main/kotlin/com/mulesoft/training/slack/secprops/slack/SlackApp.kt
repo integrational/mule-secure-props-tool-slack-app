@@ -24,6 +24,7 @@ class SlackApp(
     private val slashCommandController: SlashCommandController
 ) {
     val app = App().apply {
+        // configure OAuth 2.0
         asOAuthApp(true)
         service(FileInstallationService(config()).apply { isHistoricalDataEnabled = true })
         service(FileOAuthStateService(config()))
