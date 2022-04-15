@@ -2,7 +2,7 @@
 
 image:https://github.com/integrational/mule-secure-props-tool-slack-app/workflows/Build%20Deploy/badge.svg[]
 
-Page with "Add to Slack" button: https://mule-secure-props-tool-slack.herokuapp.com/add_to_slack.html
+To install this Slack app into a Slack workspace, press the "Add to Slack" button on https://mule-secure-props-tool-slack.herokuapp.com/oauth/start
 
 == Setup
 
