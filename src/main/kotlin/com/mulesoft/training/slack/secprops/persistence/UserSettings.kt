@@ -1,4 +1,4 @@
-package com.mulesoft.training.slack.secprops.settings
+package com.mulesoft.training.slack.secprops.persistence
 
 import org.bson.codecs.pojo.annotations.BsonId
 

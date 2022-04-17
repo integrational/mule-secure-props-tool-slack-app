@@ -7,10 +7,9 @@ import com.mulesoft.training.slack.secprops.slack.ModalController.Companion.ENCR
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.DECRYPT_SLASH_CMD
 import com.mulesoft.training.slack.secprops.slack.SlashCommandController.Companion.ENCRYPT_SLASH_CMD
 import com.mulesoft.training.slack.secprops.slack.service.InstallationServiceDelegate
-import com.mulesoft.training.slack.secprops.slack.service.OAuthStateServiceDelegate
 import com.slack.api.bolt.App
+import com.slack.api.bolt.service.OAuthStateService
 import com.slack.api.bolt.service.builtin.FileInstallationService
-import com.slack.api.bolt.service.builtin.FileOAuthStateService
 import com.slack.api.model.event.AppHomeOpenedEvent
 import javax.enterprise.context.ApplicationScoped
 
@@ -20,6 +19,7 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class SlackApp(
+    private val stateService: OAuthStateService,
     private val appHomeController: AppHomeController,
     private val globalShortcutController: GlobalShortcutController,
     private val modalController: ModalController,
@@ -29,7 +29,7 @@ class SlackApp(
         // configure OAuth 2.0
         asOAuthApp(true)
         service(InstallationServiceDelegate(FileInstallationService(config())).apply { isHistoricalDataEnabled = true })
-        service(OAuthStateServiceDelegate(FileOAuthStateService(config())))
+        service(stateService)
         enableTokenRevocationHandlers()
 
         event(AppHomeOpenedEvent::class.java) { payload, ctx -> appHomeController.publishAppHome(payload, ctx) }
