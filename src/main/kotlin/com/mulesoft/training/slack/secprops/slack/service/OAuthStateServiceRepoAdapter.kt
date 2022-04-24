@@ -10,9 +10,9 @@ import javax.enterprise.context.ApplicationScoped
  * Implementation of [OAuthStateService] that delegates to [OAuthStateRepository].
  */
 @ApplicationScoped
-class OAuthStateServiceAdapter(private val repo: OAuthStateRepository) : OAuthStateService {
+class OAuthStateServiceRepoAdapter(private val repo: OAuthStateRepository) : OAuthStateService {
     companion object {
-        private val log = LoggerFactory.getLogger(OAuthStateServiceAdapter::class.java)
+        private val log = LoggerFactory.getLogger(OAuthStateServiceRepoAdapter::class.java)
     }
 
     override fun addNewStateToDatastore(state: String?) {
