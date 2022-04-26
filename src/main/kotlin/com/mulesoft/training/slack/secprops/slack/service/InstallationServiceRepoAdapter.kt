@@ -16,7 +16,7 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class InstallationServiceRepoAdapter(
-    @field:ConfigProperty(name = "appDbId")
+    @ConfigProperty(name = "appDbId")
     private val appDbId: String,
     private val instRepo: InstallationRepository,
     private val botRepo: BotInstallationRepository
