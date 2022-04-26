@@ -67,11 +67,11 @@ class InstallationServiceRepoAdapter(
         log.debug("findBot() called with $enterpriseId and $teamId")
         // try finding enterprise-level bot
         val enterpriseBot = if (enterpriseId != null) {
-            botRepo.findById(BotInstallation.Companion.Key(enterpriseId, null))?.bot
+            botRepo.findById(BotInstallation.Companion.Key(appDbId, enterpriseId, null))?.bot
         } else null
         // try finding workspace-level bot if no enterprise-level bot found
         val wsBot = if (enterpriseBot == null) {
-            botRepo.findById(BotInstallation.Companion.Key(enterpriseId, teamId))?.bot
+            botRepo.findById(BotInstallation.Companion.Key(appDbId, enterpriseId, teamId))?.bot
         } else null
         return when {
             enterpriseBot != null -> enterpriseBot.also { log.debug("Found enterprise-level bot") }
@@ -86,11 +86,11 @@ class InstallationServiceRepoAdapter(
         log.debug("findInstaller() called with $enterpriseId and $teamId and $userId")
         // try finding enterprise-level installation
         val enterpriseInst = if (enterpriseId != null) {
-            instRepo.findById(Installation.Companion.Key(enterpriseId, null, userId))?.installer
+            instRepo.findById(Installation.Companion.Key(appDbId, enterpriseId, null, userId))?.installer
         } else null
         // try finding workspace-level installation if no enterprise-level installation found
         val wsInst = if (enterpriseInst == null) {
-            instRepo.findById(Installation.Companion.Key(enterpriseId, teamId, userId))?.installer
+            instRepo.findById(Installation.Companion.Key(appDbId, enterpriseId, teamId, userId))?.installer
         } else null
         return when {
             enterpriseInst != null -> enterpriseInst.also { log.debug("Found enterprise-level installation") }
