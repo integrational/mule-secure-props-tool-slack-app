@@ -7,6 +7,7 @@ import com.mulesoft.training.slack.secprops.persistence.InstallationRepository
 import com.slack.api.bolt.model.Bot
 import com.slack.api.bolt.model.Installer
 import com.slack.api.bolt.service.InstallationService
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.slf4j.LoggerFactory
 import javax.enterprise.context.ApplicationScoped
 
@@ -15,6 +16,8 @@ import javax.enterprise.context.ApplicationScoped
  */
 @ApplicationScoped
 class InstallationServiceRepoAdapter(
+    @field:ConfigProperty(name = "appDbId")
+    private val appDbId: String,
     private val instRepo: InstallationRepository,
     private val botRepo: BotInstallationRepository
 ) : InstallationService {
@@ -41,22 +44,22 @@ class InstallationServiceRepoAdapter(
     override fun saveInstallerAndBot(inst: Installer?) {
         log.debug("saveInstallerAndBot() called with $inst")
         if (inst != null) {
-            instRepo.persistOrUpdate(Installation(inst))
+            instRepo.persistOrUpdate(Installation(appDbId, inst))
             val bot = inst.toBot()
-            if (bot != null) botRepo.persistOrUpdate(BotInstallation(bot))
+            if (bot != null) botRepo.persistOrUpdate(BotInstallation(appDbId, bot))
         }
         log.debug("saveInstallerAndBot() returned")
     }
 
     override fun deleteBot(bot: Bot?) {
         log.debug("deleteBot() called with $bot")
-        if (bot != null) botRepo.deleteById(BotInstallation.Companion.Key(bot))
+        if (bot != null) botRepo.deleteById(BotInstallation.Companion.Key(appDbId, bot))
         log.debug("deleteBot() returned")
     }
 
     override fun deleteInstaller(inst: Installer?) {
         log.debug("deleteInstaller() called with $inst")
-        if (inst != null) instRepo.deleteById(Installation.Companion.Key(inst))
+        if (inst != null) instRepo.deleteById(Installation.Companion.Key(appDbId, inst))
         log.debug("deleteInstaller() returned")
     }
 

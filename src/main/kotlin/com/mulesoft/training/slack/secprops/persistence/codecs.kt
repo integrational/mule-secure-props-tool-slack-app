@@ -8,6 +8,7 @@ import org.bson.codecs.Codec
 import org.bson.codecs.configuration.CodecProvider
 import org.bson.codecs.configuration.CodecRegistry
 
+/** Instruct MongoDB to persist (instances of) interface [Installer] as class [DefaultInstaller] (a POJO). */
 class InstallerCodecProvider : CodecProvider {
     @Suppress("UNCHECKED_CAST")
     override fun <T> get(clazz: Class<T>?, registry: CodecRegistry?): Codec<T>? =
@@ -15,6 +16,7 @@ class InstallerCodecProvider : CodecProvider {
         else null
 }
 
+/** Instruct MongoDB to persist (instances of) interface [Bot] as class [DefaultBot] (a POJO). */
 class BotCodecProvider : CodecProvider {
     @Suppress("UNCHECKED_CAST")
     override fun <T> get(clazz: Class<T>?, registry: CodecRegistry?): Codec<T>? =
